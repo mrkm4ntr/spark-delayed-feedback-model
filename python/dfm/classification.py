@@ -15,12 +15,14 @@ class DelayedFeedbackClassifier(JavaEstimator, HasFeaturesCol, HasLabelCol, HasP
                       "e.g. if threshold is p, then thresholds must be equal to [1-p, p].",
                       typeConverter=TypeConverters.toFloat)
 
+    timeCol = Param(Params._dummy(), "timeCol", "", typeConverter=TypeConverters.toString)
+
     @keyword_only
     def __init__(self, featuresCol="features", lableCol="label", predictionCol="prediction",
                  maxIter=100, regParam=0.0, elasticNetParam=0.0, tol=1e-6, fitIntercept=True,
                  threshold=0.5, probabilityCol="probability",
                  rawPredictionCol="rawPrediction", standardization=True, weightCol=None,
-                 aggregationDepth=2):
+                 aggregationDepth=2, timeCol=None):
         super(DelayedFeedbackClassifier, self).__init__()
         self._java_obj = self._new_java_obj(
             "org.apache.spark.ml.classification.DelayedFeedbackClassifier", self.uid)
